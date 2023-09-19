@@ -1,0 +1,9 @@
+
+[Bb]in/
+[Oo]bj/
+*.user
+*.swp
+.vs/
+AssemblyInfo.auto.cs
+.idea/
+
