@@ -403,8 +403,9 @@ public class FixEol : Command<FixEol.Settings>
     private static FileStats GetStats(List<string> lines)
     {
         int unix = 0, windows = 0, mac = 0, other = 0;
-        foreach (var line in lines)
+        for (var i = 0; i < lines.Count; i++)
         {
+            var line = lines[i];
             var type = GetLineType(line);
             switch (type)
             {
@@ -418,7 +419,10 @@ public class FixEol : Command<FixEol.Settings>
                     unix++;
                     break;
                 default:
-                    other++;
+                    if ((i+1) < lines.Count)
+                    {
+                        other++;
+                    }
                     break;
             }
         }

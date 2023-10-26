@@ -281,6 +281,29 @@ public class FixEolTests
         Assert.Equal(BitConverter.ToString(original.ToArray()), BitConverter.ToString(updatedFile.ToArray()));
     }
 
+    public class GetStatsMethod
+    {
+        [Fact]
+        public void LastLineEmpty()
+        {
+            var contents = "xxxxx\n\n";
+            var encoding = Encoding.UTF8;
+            var stream = new MemoryStream(encoding.GetBytes(contents));
+            var result = FixEol.GetStats(stream, encoding);
+            Assert.Equal(FileStats.Unix(2), result);
+        }
+
+        [Fact]
+        public void LastLineNotEmpty()
+        {
+            var contents = "xxxxx\nnnn";
+            var encoding = Encoding.UTF8;
+            var stream = new MemoryStream(encoding.GetBytes(contents));
+            var result = FixEol.GetStats(stream, encoding);
+            Assert.Equal(FileStats.Unix(1), result);
+        }
+    }
+    
     sealed class Provider : IFixEolProvider, IDisposable
     {
         private readonly Dictionary<string, Tuple<Stream, Stream, Stream>> entries = new ();
